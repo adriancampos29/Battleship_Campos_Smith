@@ -19,5 +19,13 @@ RSpec.describe Ship do
     expect(cruiser.health).to eq(2)
   end
 
+  it 'can be hit again' do
+    cruiser = Ship.new("Cruiser", 3)
+    cruiser.hit
+    expect(cruiser.health).to eq(2)
+    cruiser.hit
+    expect(cruiser.health).to eq(1)
+  end
+
 
 end
