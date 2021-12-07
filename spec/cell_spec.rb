@@ -25,4 +25,5 @@ RSpec.describe Cell do
     expect(cell.ship).to eq(cruiser)
   end
 
+  
 end
