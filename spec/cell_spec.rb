@@ -25,4 +25,27 @@ RSpec.describe Cell do
     expect(cell.ship).to eq(cruiser)
   end
 
+  it 'is not empty if there is a ship' do
+    cell = Cell.new("B4")
+    cruiser = Ship.new("Cruiser", 3)
+    cell.place_ship(cruiser)
+    expect(cell.empty?).to eq(false)
+  end
+
+  it 'can be fired upon' do
+    cell = Cell.new("B4")
+    cruiser = Ship.new("Cruiser", 3)
+    cell.place_ship(cruiser)
+    expect(cell.fired_upon?).to eq(false)
+    cell.fire_upon
+    expect(cell.ship.health).to eq(2)
+    expect(cell.fired_upon?).to eq(true)
+  end
+
+  it 'can render named space' do
+    cell_1 = Cell.new("B4")
+    expect(cell_1.render).to eq(".")
+    cell_1.fire_upon
+    expect(cell_1.render).to eq("M")
+  end
 end
