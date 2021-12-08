@@ -4,6 +4,7 @@ class Cell
     @coordinate = coordinate
     @ship = nil
     @fired_upon = false
+    @render = "."
   end
 
   def empty?
@@ -26,4 +27,15 @@ class Cell
     ship.hit
     @fired_upon = true
   end
+
+  def render
+    if @fire_upon
+      return "M"
+    end
+  end
 end
+
+# @render
+#   if self.empty? == true
+#   @render = "M"
+# end
