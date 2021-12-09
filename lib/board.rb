@@ -1,11 +1,13 @@
 class Board
-  # hash = Hash.new(".")
-  # require "pry"; binding.pry
-  # hash["A1"]
 
-  new_hash = Hash.new {|hash,key| hash[key] = "."}
-  new_hash["A1"]
-  new_hash["A2"]
-  new_hash["A3"]
-  p new_hash
+  def cells
+    board_cells = {}
+    ("A".."D").to_a.each do |letter|
+      (1..4).to_a.each do |number|
+        key = (letter + number.to_s)
+        board_cells[key] = Cell.new(key)
+      end
+    end
+    board_cells
+  end
 end
