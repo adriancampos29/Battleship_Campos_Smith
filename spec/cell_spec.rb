@@ -54,6 +54,7 @@ RSpec.describe Cell do
     expect(cell_1.render).to eq("M")
   end
 
+
   it "can show whats behind the dot" do
     cell_2 = Cell.new("C3")
     cruiser = Ship.new("Cruiser", 3)
@@ -76,7 +77,7 @@ RSpec.describe Cell do
     cruiser = Ship.new("Cruiser", 3)
     cell_2.place_ship(cruiser)
     cell_2.fire_upon
-    expect(cell_2.render(true)).to eq("H")
+    expect(cell_2.render).to eq("H")
     cruiser.hit
     cruiser.hit
     expect(cruiser.sunk?).to eq(true)
