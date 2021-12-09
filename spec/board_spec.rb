@@ -1,5 +1,5 @@
 require './lib/board'
-
+require './lib/cell'
 
 RSpec.describe Board do
 
