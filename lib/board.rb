@@ -17,6 +17,11 @@ class Board
 
   def valid_coordinate?(coordinate)
     !!cells[coordinate]
-  end 
+  end
+
+  def valid_placement?(ship, placement)
+    # require 'pry'; binding.pry
+    ship.length == placement.length
+  end
 
 end
