@@ -1,4 +1,8 @@
 class Board
+  # attr_reader :board_cells
+  #
+  # def initialize
+  # end
 
   def cells
     board_cells = {}
@@ -10,4 +14,9 @@ class Board
     end
     board_cells
   end
+
+  def valid_coordinate?(coordinate)
+    !!cells[coordinate]
+  end 
+
 end
