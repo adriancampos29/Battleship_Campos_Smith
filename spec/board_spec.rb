@@ -3,7 +3,6 @@ require './lib/cell'
 require './lib/ship'
 
 RSpec.describe Board do
-
   it 'exists' do
     board = Board.new
     expect(board).to be_a(Board)
@@ -31,10 +30,6 @@ RSpec.describe Board do
 
     expect(board.valid_placement?(cruiser, ["A1", "A2"])).to eq(false)
     expect(board.valid_placement?(submarine, ["A2", "A3", "A4"])).to eq(false)
+    expect(board.valid_placement?(cruiser, ["A1", "A2", "A4"])).to eq(false)
   end
-
-
-
-
-
 end

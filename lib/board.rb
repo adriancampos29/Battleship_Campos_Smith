@@ -1,8 +1,10 @@
 class Board
-  # attr_reader :board_cells
-  #
-  # def initialize
-  # end
+  attr_reader :cells
+  attr_accessor :valid_placement
+
+  def initialize
+    @valid_placement = valid_placement
+  end
 
   def cells
     board_cells = {}
@@ -20,8 +22,14 @@ class Board
   end
 
   def valid_placement?(ship, placement)
-    # require 'pry'; binding.pry
-    ship.length == placement.length
-  end
+    # cell.empty?
+    @valid_placement = placement
+    # ship.length == placement.length
 
+    # cells.keys.each do |key|
+    #   split_key = key.split('')
+    #   letters << split_key.first
+    #   nums << split_key.last
+    # end
+  end
 end
