@@ -27,7 +27,6 @@ class Board
     end
     numbers = placement.map {|p| p[1].to_i}
     letters = placement.map {|p| p[0]}
-    # require 'pry'; binding.pry
     if numbers.uniq.length && (numbers.min..numbers.max).to_a.length == ship.length
       true
     else
@@ -39,9 +38,29 @@ class Board
     else
       false
     end
-   # above if block is for vertical placement. letters if vertical. 
+   # above if block is for vertical placement. letters is vertical.
+
+    if numbers.uniq != !numbers.uniq.reverse
+      false
+    else
+      true
+    end
+    #above if block is for backwards horiztonal placement
+
+    if letters.uniq != !letters.uniq.reverse
+      false
+    else
+      true
+    end
+    # above if block is for backwards vertical placement
   end
 end
+
+
+
+
+
+
 
 
 
