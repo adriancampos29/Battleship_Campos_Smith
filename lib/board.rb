@@ -53,6 +53,13 @@ class Board
       true
     end
     # above if block is for backwards vertical placement
+
+    if letters.uniq.length > 1 && numbers.uniq.length > 1
+      false
+    else
+      true
+    end
+    # require "pry"; binding.pry
   end
 end
 
