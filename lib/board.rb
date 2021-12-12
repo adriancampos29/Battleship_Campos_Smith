@@ -22,14 +22,68 @@ class Board
   end
 
   def valid_placement?(ship, placement)
+    if ship.length != placement.length
+      false
+    end
+    numbers = placement.map {|p| p[1].to_i}
+    letters = placement.map {|p| p[0]}
+    if numbers.uniq.length && (numbers.min..numbers.max).to_a.length == ship.length
+      true
+    else
+      false
+    end
+    # above code is for horizontal placement. numbers is horizontal, letters if vertical.
+    if letters.uniq.length && (letters.min..letters.max).to_a.length == ship.length
+      true
+    else
+      false
+    end
+   # above if block is for vertical placement. letters is vertical.
+
+    if numbers.uniq != !numbers.uniq.reverse
+      false
+    else
+      true
+    end
+    #above if block is for backwards horiztonal placement
+
+    if letters.uniq != !letters.uniq.reverse
+      false
+    else
+      true
+    end
+    # above if block is for backwards vertical placement
+
+    if letters.uniq.length > 1 && numbers.uniq.length > 1
+      false
+    else
+      true
+    end
+    # require "pry"; binding.pry
+  end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
     # cell.empty?
-    @valid_placement = placement
+    # @valid_placement = placement
     # ship.length == placement.length
+
+    # (horizontal_array).each_cons(horizontal_array) do |p|
+    # end
 
     # cells.keys.each do |key|
     #   split_key = key.split('')
     #   letters << split_key.first
     #   nums << split_key.last
     # end
-  end
-end
