@@ -1,20 +1,23 @@
 class Board
-  def cells
-    # making our game board in a method called cells
-    board_cells = {}
-    # empty hash variable
+  attr_reader :cells
+
+  def initialize
+    @cells = {}
+    generate_cells
+  end
+
+  def generate_cells
+    # making our game board in a method called generate cells
     ("A".."D").to_a.each do |letter|
     # iterating through each letter in range A - D & making it an array
       (1..4).to_a.each do |number|
     # iterating through each number in range 1 - 4 & making it an array
         key = (letter + number.to_s)
     # making key variable to add string letter and number to a string to make a coordinate (ex "A1")
-        board_cells[key] = Cell.new(key)
+        @cells[key] = Cell.new(key)
     # adding keys to hash board_cells set equal to an instance Cell
       end
     end
-    board_cells
-    # implicit return of newly made hash board_cells
   end
 
   def valid_coordinate?(coordinate)
@@ -66,6 +69,14 @@ class Board
     letters = placement.map {|coordinate| coordinate[0]}
     # splits the letter from the coordinate into an array
     letters.all?(letters[0])
+  end
+
+  def place(ship, placement)
+    placement.each do |coord|
+  # iterate through each coordinate in placement array
+      cells[coord].place_ship(ship)
+  # pass coordinate in cells hash and place ship method on that coordinate
+    end
   end
 end
 
