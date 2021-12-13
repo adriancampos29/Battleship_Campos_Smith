@@ -23,7 +23,17 @@ RSpec.describe Board do
     expect(board.valid_coordinate?("A22")).to eq(false)
   end
 
-  it 'can determine ship length is the same as placement input length' do
+  it 'knows if a cell is open' do
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    board.place(cruiser, ["A1", "A2", "A3"])
+
+    expect(board.empty_cell?(["A2", "A3"])).to eq(false)
+    expect(board.empty_cell?(["A1"])).to eq(false)
+    expect(board.empty_cell?(["D1", "D2"])).to eq(true)
+  end
+
+  it 'can determine ship length is the same as input placement length' do
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
@@ -39,11 +49,26 @@ RSpec.describe Board do
 
     expect(board.consec_nums(cruiser, ["B2", "B3", "B4"])).to eq(true)
     expect(board.consec_nums(cruiser, ["B1", "B3", "B4"])).to eq(false)
-    expect(board.consec_nums(submarine, ["C1", "C4"])).to eq(false)
+    expect(board.consec_nums(submarine, ["A1", "C1"])).to eq(false)
     expect(board.consec_nums(cruiser, ["A1", "A2", "A4"])).to eq(false)
+  end
 
-    # expect(board.valid_placement?(cruiser, ["A1", "A2", "A4"])).to eq(false)
-    # expect(board.valid_placement?(submarine, ["A1", "C1"])).to eq(false)
+  it 'cannot be backwards on the horizontal axis' do
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
+
+    expect(board.valid_placement?(cruiser, ["A3", "A2", "A1"])).to eq(false)
+    expect(board.valid_placement?(submarine, ["C1", "B1"])).to eq(false)
+  end
+
+  it 'cannot be diagonal' do
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
+
+    expect(board.valid_placement?(cruiser, ["A1", "B2", "C3"])).to eq(false)
+    expect(board.valid_placement?(submarine, ["C2", "D3"])).to eq(false)
   end
 
   it 'can determine vertical placement numbers is consecutive/sequential' do
@@ -78,35 +103,37 @@ RSpec.describe Board do
     expect(board.same_letters(["B1", "C2", "D3"])).to eq(false)
     expect(board.same_letters(["C1", "A3"])).to eq(false)
   end
+
+  it 'can say a ship is valid if it has valid coordinates' do
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
+
+    expect(board.valid_placement?(submarine, ["A1", "A2"])).to eq(true)
+    expect(board.valid_placement?(cruiser, ["B1", "C1", "D1"])).to eq(true)
+  end
+
+  it 'can place a ship on the board' do
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    board.place(cruiser, ["A1", "A2", "A3"])
+    cell_1 = board.cells["A1"]
+    cell_2 = board.cells["A2"]
+    cell_3 = board.cells["A3"]
+
+    expect(cell_1.ship).to eq(cruiser)
+    expect(cell_2.ship).to eq(cruiser)
+    expect(cell_3.ship).to eq(cruiser)
+    expect(cell_3.ship == cell_2.ship).to eq(true)
+  end
+
+  it 'can make sure ships do not overlap' do
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    board.place(cruiser, ["A1", "A2", "A3"])
+    submarine = Ship.new("Submarine", 2)
+
+
+    expect(board.valid_placement?(submarine, ["A1", "B1"])).to eq(false)
+  end
 end
-
-
-  #
-  # end
-
-  #
-  # it 'cannot be placed backwards' do
-  #   board = Board.new
-  #   cruiser = Ship.new("Cruiser", 3)
-  #   submarine = Ship.new("Submarine", 2)
-  #
-  #   expect(board.valid_placement?(cruiser, ["A3", "A2", "A1"])).to eq(false)
-  #   expect(board.valid_placement?(submarine, ["C1", "B1"])).to eq(false)
-  # end
-  #
-  # it 'cannot be diagonal' do
-  #   board = Board.new
-  #   cruiser = Ship.new("Cruiser", 3)
-  #   submarine = Ship.new("Submarine", 2)
-  #
-  #   expect(board.valid_placement?(cruiser, ["A1", "B2", "C3"])).to eq(false)
-  #   # expect(board.valid_placement?(submarine, ["C2", "D3"])).to eq(false)
-  # end
-
-  # it 'can have valid placement if ships fit all other criteria' do
-  #   board = Board.new
-  #   cruiser = Ship.new("Cruiser", 3)
-  #   submarine = Ship.new("Submarine", 2)
-  #
-  #   expect(board.valid_placement?(submarine, ["A1", "A2"])).to eq(true)
-  # end
