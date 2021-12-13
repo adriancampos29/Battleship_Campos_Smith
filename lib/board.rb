@@ -97,6 +97,17 @@ class Board
   # pass coordinate in cells hash and place ship method on that coordinate
       end
     end
+
+    def render(show = false)
+      "  1 2 3 4 \n" +
+      "A #{@cells.values[0].render(show)} #{@cells.values[1].render(show)} #{@cells.values[2].render(show)} #{@cells.values[3].render(show)} \n" +
+      "B #{@cells.values[4].render(show)} #{@cells.values[5].render(show)} #{@cells.values[6].render(show)} #{@cells.values[7].render(show)} \n" +
+      "C #{@cells.values[8].render(show)} #{@cells.values[9].render(show)} #{@cells.values[10].render(show)} #{@cells.values[11].render(show)} \n" +
+      "D #{@cells.values[12].render(show)} #{@cells.values[13].render(show)} #{@cells.values[14].render(show)} #{@cells.values[15].render(show)} \n"
+        end
+
+
+
   end
 
 
