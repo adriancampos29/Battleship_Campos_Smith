@@ -13,6 +13,7 @@ class Game
     @computer_ships = two_ships
     @computer = Computer.new
     @player = Player.new
+    # @shot = shot
   end
 
   def two_ships
@@ -38,10 +39,33 @@ class Game
     @computer.computer_place_ships
     # @player.user_place_ships
     @player.user_input_ships
+    # puts @board.render(true)
+    # turn
   end
 
-  def quit_game
+  # def turn
+  #   display_boards
+  #   # user_shot
+  # end
+  #
+  # def display_boards
+  #   "=============COMPUTER BOARD============="
+  #   @computer_board.render
+  #   "==============PLAYER BOARD=============="
+  #   @board.render
+  # end
 
+  # def user_shot
+  #   puts "Enter the coordinate for your shot: "
+  #   @shot = gets.chomp
+  #   valid_shot?
+  # end
+  #
+  # def valid_shot?(coord)
+  #   @computer_board.cells.fire_upon = false && @computer_board.valid_coordinate = true
+  # end
+
+  def quit_game
   end
 
   # def computer_place_ships
