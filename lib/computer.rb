@@ -3,8 +3,8 @@ require './lib/game'
 
 class Computer
 
-  def initialize(muffin)
-    @computer_board = muffin
+  def initialize(board)
+    @computer_board = board
     @cruiser = Ship.new("Cruiser", 3)
     @submarine = Ship.new("Submarine", 2)
   end
