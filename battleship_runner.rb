@@ -5,8 +5,9 @@ require './lib/game'
 require './lib/computer'
 require './lib/player'
 
+board = Board.new
+board_2 = Board.new
+game = Game.new(board, board_2)
 
-game = Game.new
-player = Player.new
-computer = Computer.new 
+
 game.greeting
