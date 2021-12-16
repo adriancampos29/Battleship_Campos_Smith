@@ -5,7 +5,6 @@ class Cell
     @coordinate = coordinate
     @ship = nil
     @fired_upon = false
-    # @render = "."
   end
 
   def empty?
@@ -43,16 +42,3 @@ class Cell
     end
   end
 end
-
-#return "." unless fired upon
-#if @ship
-#if sunk put X, else put H
-#
-# @render
-
-# return "." unless @fire_upon
-# if @ship
-#   ship.sunk? ? ( return "X" ) : (return "H")
-# end
-# "M"
-# end
