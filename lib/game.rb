@@ -4,15 +4,17 @@ require './lib/ship'
 require './lib/computer'
 
 class Game
-  attr_reader :board, :computer_board, :user_ships, :computer_ships, :computer
+  attr_reader :board, :computer_board, :computer_ships, :computer, :shot, :comp_ship_sunk, :human_ship_sunk, :comp_shot
 
-  def initialize
-    @board = Board.new
-    @computer_board = Board.new
-    @user_ships = two_ships
-    @computer_ships = two_ships
-    @computer = Computer.new
-    @player = Player.new
+  def initialize(board, board_2)
+    @board = board
+    @computer_board = board_2
+    @computer = Computer.new(board_2)
+    @player = Player.new(board)
+    @shot = shot
+    @comp_ship_sunk = 0
+    @human_ship_sunk = 0
+    @comp_shot = comp_shot
   end
 
   def two_ships
@@ -28,6 +30,7 @@ class Game
       start_game
     elsif
       input == "q"
+      puts "Bummer, have a great day!"
       quit_game
     else
       puts "Invalid option"
@@ -36,51 +39,99 @@ class Game
 
   def start_game
     @computer.computer_place_ships
-    # @player.user_place_ships
     @player.user_input_ships
+    turn
   end
 
-  def quit_game
-
+  def turn
+    display_boards
+    until @comp_ship_sunk == 2 || @human_ship_sunk == 2
+      puts "Select a coordinate to fire upon"
+      user_shot
+      computer_shot
+      display_boards
+    end
+    winner
   end
 
-  # def computer_place_ships
-  #   computer.computer_place_ships
-  # end
-  # def random_coords(ship_length)
-  #   array = @computer_board.cells.keys
-  #   array.shuffle!.pop(ship_length)
-  # end
-  #
-  # def computer_place_ships
-  #   @computer_ships.each do |ship|
-  #     coords = random_coords(ship.length)
-  #     if @computer_board.valid_placement?(ship, coords) == true
-  #       @computer_board.place(ship, coords)
-  #     end
-  #   end
-  #   puts "I have laid out my ships on the grid."
-  #   # user_place_ships
-  # end
+  def display_boards
+    puts  "=============COMPUTER BOARD============="
+    puts  "#{@computer_board.render}"
+    puts  "==============PLAYER BOARD=============="
+    puts  "#{@board.render(true)}"
+  end
 
+  def user_shot
+    puts "Enter the coordinate for your shot:"
+    @shot = gets.chomp.upcase
+      if valid_shot?(@shot) == true
+        if @computer_board.cells[@shot].render == "X"
+          puts "Your shot #{shot} sunk my battleship!! :( :("
+            @comp_ship_sunk += 1
+        elsif @computer_board.cells[@shot].render == "H"
+          puts "Your shot #{shot} hit my battleship!! :("
+        elsif @computer_board.cells[@shot].render == "M"
+          puts "Your shot #{shot} missed haha!"
+        end
+      else
+        valid_shot?(@shot) == false
+          puts "Your input is invalid, please enter a valid coordinate"
+    end
+  end
 
-  # def user_input_ships
-  #   puts "You now need to lay out your two ships."
-  #   puts "The Cruiser is three units long and the Submarine is two units long."
-  #   puts @board.render
-  #   puts "Enter the squares for the Cruiser (3 spaces): "
-  #   squares = gets.chomp
-  #   squares.to_s.upcase.split(" ")
-  # end
+  def valid_shot?(shot)
+    until @computer_board.valid_coordinate?(shot) && @computer_board.cells[shot].fired_upon? == false
+      puts "Your input is invalid, please enter a valid coordinate"
+      shot = gets.chomp.upcase
+      @shot = shot
+    end
+    @computer_board.cells[shot].fire_upon
+    return true
+  end
 
-  # def user_place_ships
-  #   @player.user_input_ships
-    # @user_ships.each do |ship|
-    #   if @board.valid_placement?(ship, user_input_ships) == true
-    #     @board.place(ship, user_input_ships)
-    #   end
-    # end
-  #   puts "I have laid out my ships on the grid."
-  # end
+  def computer_shot
+    @comp_shot = @board.cells.keys.sample
+    until @board.valid_coordinate?(@comp_shot) && @board.cells[@comp_shot].fired_upon? == false
+      @comp_shot = @board.cells.keys.sample
+    end
+      @board.cells[@comp_shot].fire_upon
+      computer_feedback
+  end
 
- end
+  def computer_feedback
+    if @board.cells[@comp_shot].render(true) == "X"
+      puts "The computer shot #{comp_shot} sunk my battleship!! :( :("
+        @human_ship_sunk += 1
+    elsif @board.cells[@comp_shot].render(true) == "H"
+      puts "The computer shot #{comp_shot} hit my battleship!! :("
+    elsif @board.cells[@comp_shot].render(true) == "M"
+      puts "The computer shot #{comp_shot} missed haha!"
+    end
+  end
+
+  def winner
+    if @comp_ship_sunk == 2
+      puts "You won!!"
+      end_game
+    elsif @human_ship_sunk == 2
+      puts "Victory I win!!"
+      end_game
+    end
+  end
+
+  def end_game
+    if @comp_ship_sunk == 2 || @human_ship_sunk == 2
+      puts "GAME OVER"
+    end
+    restart
+  end
+
+  def restart
+    board = Board.new
+    board_2 = Board.new
+    @computer = Computer.new(board_2)
+    @player = Player.new(board)
+    initialize(board, board_2)
+    greeting
+  end
+end
