@@ -1,11 +1,10 @@
 class Player
   attr_reader :board, :cruiser, :submarine
 
-  def initialize
-    @board = Board.new
+  def initialize(board)
+    @board = board
     @cruiser = Ship.new("Cruiser", 3)
     @submarine = Ship.new("Submarine", 2)
-    @user_ships = [Ship.new("Cruiser", 3), Ship.new("Submarine", 2)]
   end
 
   def user_input_ships
@@ -16,20 +15,7 @@ class Player
     deploy_sub
     puts @board.render(true)
     puts "I have laid out my ships on the grid."
-    # puts "Enter the squares for the Cruiser (3 spaces): "
-    # squares = gets.chomp
-    # squares.to_s.upcase.split(" ")
   end
-
-  # def user_place_ships
-  #   @user_ships.each do |ship|
-  #     # user_input_ships
-  #     if @board.valid_placement?(ship, user_input_ships) == true
-  #       @board.place(ship, user_input_ships)
-  #     end
-  #   end
-  #   puts "I have laid out my ships on the grid."
-  # end
 
   def deploy_cruiser
     coords = false
